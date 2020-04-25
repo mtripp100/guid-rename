@@ -1,11 +1,11 @@
-import tempfile
-import sys
 import os
+import sys
+import tempfile
 
 
-def generate_files(dirname, n):
+def generate_files(dirname, num_files):
     os.mkdir(dirname)
-    for _ in range(n):
+    for _ in range(num_files):
         with tempfile.NamedTemporaryFile(delete=False, dir=dirname):
             pass
 
