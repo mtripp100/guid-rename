@@ -11,8 +11,7 @@ def setup_logging():
 
 @click.command()
 @click.argument(
-    "directory",
-    type=click.Path(exists=True, file_okay=False, writable=True),
+    "directory", type=click.Path(exists=True, file_okay=False, writable=True),
 )
 @click.option(
     "--num-workers",

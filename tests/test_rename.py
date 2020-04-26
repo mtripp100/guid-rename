@@ -19,9 +19,7 @@ def _generate_tmpdir(dirname):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("num_files", [
-    1, 10, 100, 1000
-])
+@pytest.mark.parametrize("num_files", [1, 10, 100, 1000])
 def test_generation(tmp_dir, num_files):
     _generate_files(tmp_dir, num_files)
 
@@ -38,9 +36,9 @@ def test_generation(tmp_dir, num_files):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("num_files, num_workers", [
-    (10, 2), (100, 4), (1000, 8), (10000, 16)
-])
+@pytest.mark.parametrize(
+    "num_files, num_workers", [(10, 2), (100, 4), (1000, 8), (10000, 16)]
+)
 def test_generation_threaded(tmp_dir, num_files, num_workers):
     _generate_files(tmp_dir, num_files)
 
@@ -57,9 +55,7 @@ def test_generation_threaded(tmp_dir, num_files, num_workers):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("num_files, num_dirs", [
-    (100, 1)
-])
+@pytest.mark.parametrize("num_files, num_dirs", [(100, 1)])
 def test_generation_dirs_ignored(tmp_dir, num_files, num_dirs):
     _generate_files(tmp_dir, num_files)
     gen_tmp_dir = _generate_tmpdir(tmp_dir)
@@ -81,17 +77,13 @@ def test_generation_dirs_ignored(tmp_dir, num_files, num_dirs):
         assert gen_tmp_dir == path.join(tmp_dir, d)
 
 
-@pytest.mark.parametrize("old_name", [
-    "hello"
-])
+@pytest.mark.parametrize("old_name", ["hello"])
 def test_no_extension(old_name):
     f = rename.get_new_name(old_name)
     assert uuid.UUID(f)
 
 
-@pytest.mark.parametrize("old_name", [
-    "hello.f", "hello.txt", "hello.txt.txt"
-])
+@pytest.mark.parametrize("old_name", ["hello.f", "hello.txt", "hello.txt.txt"])
 def test_with_extension(old_name):
     f = rename.get_new_name(old_name)
 
