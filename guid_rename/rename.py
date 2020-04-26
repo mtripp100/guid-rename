@@ -4,19 +4,7 @@ import sys
 import threading
 import uuid
 
-
-def as_blocks(blocks, workers):
-    min_size = len(blocks) // workers
-    extra = len(blocks) % workers
-
-    start = 0
-    for _ in range(workers):
-        end = min_size + (1 if extra > 0 else 0)
-        yield blocks[start:start + end]
-        start += end
-
-        if extra > 0:
-            extra -= 1
+from .blocks import as_blocks
 
 
 def rename_all(dirname, files):
