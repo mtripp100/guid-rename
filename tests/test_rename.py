@@ -16,13 +16,31 @@ def _generate_files(dirname, num_files):
 
 @pytest.mark.slow
 @pytest.mark.parametrize("num_files", [
-    1, 10, 100, 1000, 10000
+    1, 10, 100, 1000
 ])
 def test_generation(tmp_dir, num_files):
     _generate_files(tmp_dir, num_files)
 
+    rename.rename_selection(tmp_dir, os.listdir(tmp_dir))
+
     files = os.listdir(tmp_dir)
-    rename.rename_all(tmp_dir, files)
+    assert len(files) == num_files
+
+    for f in files:
+        assert path.isfile(path.join(tmp_dir, f))
+
+        basename = path.splitext(f)[0]
+        assert uuid.UUID(basename)
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("num_files, num_workers", [
+    (10, 2), (100, 4), (1000, 8), (10000, 16)
+])
+def test_generation_threaded(tmp_dir, num_files, num_workers):
+    _generate_files(tmp_dir, num_files)
+
+    rename.rename_all(tmp_dir, num_workers)
 
     files = os.listdir(tmp_dir)
     assert len(files) == num_files
