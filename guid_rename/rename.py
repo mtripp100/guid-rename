@@ -7,11 +7,17 @@ import uuid
 from .blocks import as_blocks
 
 
+def get_new_name(filename):
+    oldext = path.splitext(filename)[1]
+    newname = str(uuid.uuid4()) + oldext
+
+    return newname
+
+
 def rename_all(dirname, files):
     for f in files:
         if path.isfile(path.join(dirname, f)):
-            oldext = path.splitext(f)[1]
-            newname = str(uuid.uuid4()) + oldext
+            newname = get_new_name(f)
             os.rename(path.join(dirname, f), path.join(dirname, newname))
 
 
