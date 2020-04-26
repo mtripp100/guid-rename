@@ -14,6 +14,10 @@ def _generate_files(dirname, num_files):
             pass
 
 
+def _generate_tmpdir(dirname):
+    return tempfile.mkdtemp(dir=dirname)
+
+
 @pytest.mark.slow
 @pytest.mark.parametrize("num_files", [
     1, 10, 100, 1000
@@ -50,6 +54,31 @@ def test_generation_threaded(tmp_dir, num_files, num_workers):
 
         basename = path.splitext(f)[0]
         assert uuid.UUID(basename)
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("num_files, num_dirs", [
+    (100, 1)
+])
+def test_generation_dirs_ignored(tmp_dir, num_files, num_dirs):
+    _generate_files(tmp_dir, num_files)
+    gen_tmp_dir = _generate_tmpdir(tmp_dir)
+
+    rename.rename_selection(tmp_dir, os.listdir(tmp_dir))
+
+    files = []
+    dirs = []
+    for x in os.listdir(tmp_dir):
+        files.append(x) if path.isfile(path.join(tmp_dir, x)) else dirs.append(x)
+
+    assert len(files) == num_files
+    for f in files:
+        basename = path.splitext(f)[0]
+        assert uuid.UUID(basename)
+
+    assert len(dirs) == num_dirs
+    for d in dirs:
+        assert gen_tmp_dir == path.join(tmp_dir, d)
 
 
 @pytest.mark.parametrize("old_name", [

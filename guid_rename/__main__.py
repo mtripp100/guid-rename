@@ -1,4 +1,5 @@
 import logging
+
 import click
 
 from .rename import rename_all
