@@ -8,7 +8,7 @@ def as_blocks(work, num_workers):
     start = 0
     for _ in range(num_workers):
         end = min_size + (1 if extra > 0 else 0)
-        yield work[start:start + end]
+        yield work[start : start + end]
         start += end
 
         if extra > 0:

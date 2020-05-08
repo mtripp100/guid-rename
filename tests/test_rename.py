@@ -36,7 +36,9 @@ def test_generation(tmp_dir, num_files):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("num_files, num_workers", [(10, 2), (100, 4), (1000, 8), (10000, 16)])
+@pytest.mark.parametrize(
+    "num_files, num_workers", [(10, 2), (100, 4), (1000, 8), (10000, 16)]
+)
 def test_generation_threaded(tmp_dir, num_files, num_workers):
     _generate_files(tmp_dir, num_files)
 

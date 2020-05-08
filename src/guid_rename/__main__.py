@@ -14,7 +14,10 @@ def setup_logging():
     "directory", type=click.Path(exists=True, file_okay=False, writable=True),
 )
 @click.option(
-    "--num-workers", type=click.INT, default=1, help="Number of threads used to rename all files.",
+    "--num-workers",
+    type=click.INT,
+    default=1,
+    help="Number of threads used to rename all files.",
 )
 def run(directory, num_workers):
     setup_logging()
