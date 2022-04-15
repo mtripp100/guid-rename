@@ -36,9 +36,7 @@ def test_generation(tmp_dir, num_files):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize(
-    "num_files, num_workers", [(10, 2), (100, 4), (1000, 8), (10000, 16)]
-)
+@pytest.mark.parametrize("num_files, num_workers", [(10, 2), (100, 4), (1000, 8), (10000, 16)])
 def test_generation_threaded(tmp_dir, num_files, num_workers):
     _generate_files(tmp_dir, num_files)
 
@@ -65,7 +63,10 @@ def test_generation_dirs_ignored(tmp_dir, num_files, num_dirs):
     files = []
     dirs = []
     for x in os.listdir(tmp_dir):
-        files.append(x) if path.isfile(path.join(tmp_dir, x)) else dirs.append(x)
+        if path.isfile(path.join(tmp_dir, x)):
+            files.append(x)
+        else:
+            dirs.append(x)
 
     assert len(files) == num_files
     for f in files:
