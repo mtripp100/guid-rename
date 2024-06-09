@@ -1,5 +1,4 @@
 import pytest
-
 from guid_rename import blocks
 
 
